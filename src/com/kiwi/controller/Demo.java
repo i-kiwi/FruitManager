@@ -23,6 +23,12 @@ public class Demo {
     @RequestMapping("tt.do")
     @ResponseBody
     public String tt(){
-        return "hello," + userDao.findName() ;
+        try {
+            Thread.sleep(3000);
+        }catch (Exception e){
+
+        }
+        System.out.println("hello");
+        return "hello," + userDao.findName();
     }
 }

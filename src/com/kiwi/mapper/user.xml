@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kiwi.dao.UserDao">
-    <resultMap id="BaseResultMap" type="com.kiwi.dto.User">
-        <result column="NAME" property="name" />
-    </resultMap>
+    <!--<resultMap id="BaseResultMap" type="com.kiwi.dto.User">-->
+        <!--<result column="NAME" property="name" />-->
+    <!--</resultMap>-->
 
     <select id="findName" resultType="String">
         SELECT NAME FROM USER
         WHERE NAME = 'kiwi'
+    </select>
+
+    <select id="login" resultType="String" parameterType="com.alibaba.fastjson.JSONObject">
+        SELECT COUNT(1) FROM M_USER
+        WHERE USERNAME = #{name}
+        AND PASSWORD = #{pass}
     </select>
 </mapper>
