@@ -36,4 +36,20 @@ public class StoreService {
         return Tools.formatReturnInfo(info, msg, item);
     }
 
+    public String getStoreDetail(JSONObject json) {
+        String info = "";
+        String msg = "";
+        String item = "";
+        try {
+            String fruitId = json.getString("fruitId");
+            JSONObject resultJson = this.storeDao.selectFruitDetail(fruitId);
+            info = "SUC";
+            item = resultJson.toJSONString();
+        } catch (Exception e){
+            info = "ERR";
+            msg = e.getMessage();
+        }
+
+        return Tools.formatReturnInfo(info, msg, item);
+    }
 }

@@ -11,7 +11,7 @@
     </select>
 
     <select id="login" resultType="String" parameterType="com.alibaba.fastjson.JSONObject">
-        SELECT COUNT(1) FROM M_USER
+        SELECT NAME FROM M_USER
         WHERE USERNAME = #{name}
         AND PASSWORD = #{pass}
     </select>

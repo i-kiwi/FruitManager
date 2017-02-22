@@ -10,4 +10,6 @@ import java.util.List;
 public interface StoreDao extends DaoMapper {
 
     public List<JSONObject> selectStoreList(JSONObject json);
+
+    public JSONObject selectFruitDetail(String fruitId);
 }

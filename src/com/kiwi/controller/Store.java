@@ -40,4 +40,21 @@ public class Store {
         out.close();
     }
 
+
+    @RequestMapping(value = "getFruitDetail.do")
+    @ResponseBody
+    public void getFruitDetail(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/json");
+        String param = request.getParameter("param");
+        log.info("[param]>>>" + param);
+        JSONObject json = JSONObject.parseObject(param);
+
+        PrintWriter out = response.getWriter();
+        out.print(this.storeService.getStoreDetail(json));
+        out.flush();
+        out.close();
+    }
+
 }

@@ -4,9 +4,17 @@
 
 
     <select id="selectStoreList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
-      SELECT f.NAME, f.NOTE, f.ID, f.PRICE, f.STORE, f.IMG_JSON, f.STATE, f.CHANGE_TIME,
-      u.UNIT_NAME
-      FROM FRUIT f, FRUIT_UNIT u
-      WHERE f.UNIT_ID = u.ID
+        SELECT f.NAME, f.NOTE, f.ID, f.PRICE, f.STORE, f.IMG_LIST, f.STATE, f.CHANGE_TIME,
+        u.UNIT_NAME
+        FROM FRUIT f, FRUIT_UNIT u
+        WHERE f.UNIT_ID = u.ID
+    </select>
+
+    <select id="selectFruitDetail" parameterType="String" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT F.ID, F.NAME, F.NOTE, F.PRICE, F.HISTORY_PRICE, F.IMG_LIST, F.STORE, F.HISTORY_STORE, F.LAST_IN_STORE_TIME,
+        U.UNIT_NAME
+        FROM FRUIT F, FRUIT_UNIT U
+        WHERE U.ID = F.UNIT_ID
+        AND F.ID = #{fruitId}
     </select>
 </mapper>
