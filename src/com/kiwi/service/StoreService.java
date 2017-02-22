@@ -2,6 +2,7 @@ package com.kiwi.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kiwi.dao.StoreDao;
+import com.kiwi.util.PropertyUtil;
 import com.kiwi.util.Tools;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class StoreService {
         try {
             String fruitId = json.getString("fruitId");
             JSONObject resultJson = this.storeDao.selectFruitDetail(fruitId);
+            resultJson.put("resourceUrl", PropertyUtil.getConstants("fileUrl"));
             info = "SUC";
             item = resultJson.toJSONString();
         } catch (Exception e){
