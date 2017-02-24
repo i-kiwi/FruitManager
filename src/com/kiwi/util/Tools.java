@@ -24,7 +24,7 @@ public class Tools {
     private static ServletFileUpload upload;
     private static Random random = new Random();
 
-    private static SimpleDateFormat fullSdf = new SimpleDateFormat("yyyyMMddHHmmss");
+    public static SimpleDateFormat fullSdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
     public static String formatReturnInfo(String info, String msg, String item){
         JSONObject json = new JSONObject();
@@ -60,7 +60,7 @@ public class Tools {
                 path = PropertyUtil.getConstants("filePath");
                 name = request.getHeader("id") + fullSdf.format(new Date()) + getRandom() + "." + originalName[originalName.length - 1];
                 url = PropertyUtil.getConstants("fileUrl");
-                fileNames.add(name);
+                fileNames.add(url + name);
 
                 File file = new File(path + name);
                 if (!file.getParentFile().exists()) {

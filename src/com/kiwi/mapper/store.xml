@@ -1,20 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kiwi.dao.StoreDao">
-
-
     <select id="selectStoreList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
-        SELECT f.NAME, f.NOTE, f.ID, f.PRICE, f.STORE, f.IMG_LIST, f.STATE, f.CHANGE_TIME,
+        SELECT f.NAME, f.NOTE, f.ID, f.PRICE, f.STORE, IFNULL(f.IMG_LIST, '../img/default.jpeg') AS IMG_LIST, f.STATE, f.CHANGE_TIME,
         u.UNIT_NAME
         FROM FRUIT f, FRUIT_UNIT u
         WHERE f.UNIT_ID = u.ID
     </select>
 
     <select id="selectFruitDetail" parameterType="String" resultType="com.alibaba.fastjson.JSONObject">
-        SELECT F.ID, F.NAME, F.NOTE, F.PRICE, F.HISTORY_PRICE, F.IMG_LIST, F.STORE, F.HISTORY_STORE, F.LAST_IN_STORE_TIME,
+        SELECT F.ID, F.NAME, F.NOTE, F.PRICE, F.HISTORY_PRICE, F.UNIT_ID,
+        IFNULL(F.IMG_LIST, '../img/default.jpeg') AS IMG_LIST, F.STORE,
+        F.HISTORY_STORE, F.LAST_IN_STORE_TIME,
         U.UNIT_NAME
         FROM FRUIT F, FRUIT_UNIT U
         WHERE U.ID = F.UNIT_ID
         AND F.ID = #{fruitId}
+    </select>
+
+    <update id="updateFruitImage" parameterType="String">
+        UPDATE FRUIT
+            SET IMG_LIST = IFNULL(CONCAT(IMG_LIST , ',' , #{imgList}), #{imgList})
+        WHERE ID = #{fruitId}
+    </update>
+
+    <update id="updateFruitInfo" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE FRUIT
+        SET CHANGE_TIME = #{changeTime}
+        <if test='name != null and name != ""'>
+            , NAME = #{name}
+        </if>
+        <if test='note != null'>
+            , NOTE = #{note}
+        </if>
+        <if test='price != null and price != ""'>
+            , HISTORY_PRICE = PRICE
+            , PRICE = #{price}
+        </if>
+        <if test='unit != null and unit != ""'>
+            , UNIT_ID = #{unitId}
+        </if>
+        <if test='imgList != null'>
+            <if test='imgList != ""'>
+                , IMG_LIST = #{imgList}
+            </if>
+            <if test='imgList == ""'>
+                , IMG_LIST = NULL
+            </if>
+        </if>
+        WHERE ID = #{id}
+    </update>
+
+    <select id="selectUnitMenu" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT ID, UNIT_NAME FROM FRUIT_UNIT
     </select>
 </mapper>

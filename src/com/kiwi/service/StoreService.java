@@ -7,7 +7,9 @@ import com.kiwi.util.Tools;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,9 +46,39 @@ public class StoreService {
         try {
             String fruitId = json.getString("fruitId");
             JSONObject resultJson = this.storeDao.selectFruitDetail(fruitId);
-            resultJson.put("resourceUrl", PropertyUtil.getConstants("fileUrl"));
             info = "SUC";
             item = resultJson.toJSONString();
+        } catch (Exception e){
+            info = "ERR";
+            msg = e.getMessage();
+        }
+
+        return Tools.formatReturnInfo(info, msg, item);
+    }
+
+    public String saveFruitInfo(JSONObject json) {
+        String info = "";
+        String msg = "";
+        String item = "";
+        try {
+            json.put("changeTime",Tools.fullSdf.format(new Date()));
+            this.storeDao.updateFruitInfo(json);
+            info = "SUC";
+        } catch (Exception e){
+            info = "ERR";
+            msg = e.getMessage();
+        }
+
+        return Tools.formatReturnInfo(info, msg, item);
+    }
+
+    public String getUnitMenu() {
+        String info = "";
+        String msg = "";
+        String item = "";
+        try {
+            item = this.storeDao.selectUnitMenu().toString();
+            info = "SUC";
         } catch (Exception e){
             info = "ERR";
             msg = e.getMessage();
